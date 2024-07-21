@@ -1,7 +1,6 @@
-# Sun Chess (Cờ mặt trời)
+# Sun Chess
 
-Sun Chess is a unique chess variant implemented in Python using the Pygame library. This two-player strategy game features special movement rules and a distinctive win condition centered around the "Sun" piece.
-
+Sun Chess is a Vietnamese board game implemented in Python using the Pygame library. This game features special movement rules, a distinctive win condition centered around the "Sun" piece, and an AI opponent powered by a minimax algorithm.
 ![gameplay.png](gameplay.png)
 ## Game Rules
 
@@ -26,6 +25,15 @@ Sun Chess is a unique chess variant implemented in Python using the Pygame libra
 
 6. **Win Condition**: The game ends when a player's Sun piece is captured. The player who loses their Sun piece loses the game.
 
+## Features
+
+- Interactive GUI with a game board and info panel
+- Turn indicator
+- Valid move highlighting
+- New Game and Exit buttons
+- Winner display
+- AI opponent using minimax algorithm with alpha-beta pruning
+
 ## Requirements
 
 - Python 3.x
@@ -34,34 +42,35 @@ Sun Chess is a unique chess variant implemented in Python using the Pygame libra
 ## Installation
 
 1. Ensure you have Python installed on your system.
-2. Install Pygame by running:
+2. Clone this repository or download the source files.
+3. Install requirements by running:
    ```
-   pip install pygame==2.6.0
+   pip install -r requirements.txt
    ```
-3. Download the `sun_chess.py` file from this repository.
 
 ## How to Play
 
 1. Run the script:
    ```
-   python sun_chess.py
+   python main.py
    ```
 2. The game window will open, showing the board on the left and an info panel on the right.
-3. Players take turns moving pieces:
+3. You play as the Red pieces, and the AI controls the Black pieces.
+4. Players take turns moving pieces:
    - Click on a piece to select it.
    - Valid moves will be highlighted with green circles.
    - Click on a highlighted square to move the piece.
-4. The info panel shows whose turn it is or who has won.
-5. Use the "New Game" button to reset the board at any time.
-6. Use the "Exit" button or close the window to end the game.
+5. The info panel shows whose turn it is or who has won.
+6. Use the "New Game" button to reset the board at any time.
+7. Use the "Exit" button or close the window to end the game.
 
-## Features
+## AI Opponent
 
-- Interactive GUI with a game board and info panel
-- Turn indicator
-- Valid move highlighting
-- New Game and Exit buttons
-- Winner display
+The game features an AI opponent that uses the minimax algorithm with alpha-beta pruning. The AI:
+- Evaluates the board based on piece values and the presence of Sun pieces.
+- Prioritizes capturing the opponent's Sun and protecting its own.
+- Looks ahead several moves to make strategic decisions.
+- Has a time limit of 3 seconds per move to ensure responsiveness.
 
 ## Contributing
 
