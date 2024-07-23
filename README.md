@@ -1,4 +1,4 @@
-# Sun Chess
+# Sun Chess (Cờ mặt trời)
 
 Sun Chess is a Vietnamese board game implemented in Python using the Pygame library. This game features special movement rules, a distinctive win condition centered around the "Sun" piece, and an AI opponent powered by a minimax algorithm.
 ![gameplay.png](gameplay.png)
@@ -70,7 +70,7 @@ The game features an AI opponent that uses the minimax algorithm with alpha-beta
 - Evaluates the board based on piece values and the presence of Sun pieces.
 - Prioritizes capturing the opponent's Sun and protecting its own.
 - Looks ahead several moves to make strategic decisions.
-- Has a time limit of 3 seconds per move to ensure responsiveness.
+- Has a time limit of 5 seconds per move to ensure responsiveness.
 
 ## Contributing
 

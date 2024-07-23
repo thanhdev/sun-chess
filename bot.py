@@ -144,7 +144,8 @@ class Bot:
                     pieces.append(piece)
         return pieces
 
-    def simulate_move(self, board, piece, move):
+    @staticmethod
+    def simulate_move(board, piece, move):
         temp_board = copy.deepcopy(board)
         temp_piece = next(
             p

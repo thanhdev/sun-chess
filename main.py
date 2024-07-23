@@ -34,12 +34,12 @@ class Button:
         self.color = color
         self.text_color = text_color
 
-    def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.rect)
+    def draw(self, _screen):
+        pygame.draw.rect(_screen, self.color, self.rect)
         font = pygame.font.Font(None, 32)
         text = font.render(self.text, True, self.text_color)
         text_rect = text.get_rect(center=self.rect.center)
-        screen.blit(text, text_rect)
+        _screen.blit(text, text_rect)
 
     def is_clicked(self, pos):
         return self.rect.collidepoint(pos)
@@ -59,9 +59,9 @@ class Piece:
         self.x = SQUARE_SIZE * self.col + SQUARE_SIZE // 2
         self.y = SQUARE_SIZE * self.row + SQUARE_SIZE // 2
 
-    def draw(self, screen):
+    def draw(self, _screen):
         radius = SQUARE_SIZE // 2 - 10
-        pygame.draw.circle(screen, self.color, (self.x, self.y), radius)
+        pygame.draw.circle(_screen, self.color, (self.x, self.y), radius)
 
         if self.value == 0:  # Sun piece
             points = []
@@ -74,14 +74,14 @@ class Piece:
                     radius * 0.7 * pygame.math.Vector2(1, 0).rotate(angle).y
                 )
                 points.append((x, y))
-            pygame.draw.polygon(screen, YELLOW, points)
+            pygame.draw.polygon(_screen, YELLOW, points)
         else:  # Number piece
             font = pygame.font.Font(None, 36)
             text = font.render(
                 str(self.value), True, YELLOW if self.color == RED else RED
             )
             text_rect = text.get_rect(center=(self.x, self.y))
-            screen.blit(text, text_rect)
+            _screen.blit(text, text_rect)
 
     def move(self, row, col):
         self.row = row
@@ -108,22 +108,24 @@ class Board:
                         value = [4, 3, 2, 0, 2, 3, 4][col]
                     elif row == 1 or row == 5:
                         value = [1, 2, 3, 4, 3, 2, 1][col]
+                    else:
+                        continue
                     self.board[row].append(Piece(row, col, value, color))
                 else:
                     self.board[row].append(0)
 
-    def draw(self, screen):
+    def draw(self, _screen):
         for row in range(ROWS):
             for col in range(COLS):
                 # Draw yellow square
                 pygame.draw.rect(
-                    screen,
+                    _screen,
                     YELLOW,
                     (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE),
                 )
                 # Draw black border
                 pygame.draw.rect(
-                    screen,
+                    _screen,
                     BLACK,
                     (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE),
                     1,
@@ -132,19 +134,19 @@ class Board:
                 # Draw piece if exists
                 piece = self.board[row][col]
                 if piece != 0:
-                    piece.draw(screen)
+                    piece.draw(_screen)
 
         # Highlight selected piece
         if self.selected_piece:
             x = self.selected_piece.col * SQUARE_SIZE
             y = self.selected_piece.row * SQUARE_SIZE
-            pygame.draw.rect(screen, BLUE, (x, y, SQUARE_SIZE, SQUARE_SIZE), 4)
+            pygame.draw.rect(_screen, BLUE, (x, y, SQUARE_SIZE, SQUARE_SIZE), 4)
 
         # Draw valid moves
         for move in self.valid_moves:
             row, col = move
             pygame.draw.circle(
-                screen,
+                _screen,
                 GREEN,
                 (
                     col * SQUARE_SIZE + SQUARE_SIZE // 2,
@@ -154,7 +156,7 @@ class Board:
             )
 
         # Draw gold border around the entire board
-        pygame.draw.rect(screen, GOLD, (0, 0, BOARD_WIDTH, BOARD_HEIGHT), 4)
+        pygame.draw.rect(_screen, GOLD, (0, 0, BOARD_WIDTH, BOARD_HEIGHT), 4)
 
     def select(self, row, col):
         if self.selected_piece:
@@ -244,10 +246,10 @@ class Board:
 
 
 def draw_info_panel(
-    screen, board, new_game_button, exit_button, player_color, bot_color
+    _screen, board, new_game_button, exit_button, player_color, bot_color
 ):
     # Draw panel background
-    pygame.draw.rect(screen, GRAY, (BOARD_WIDTH, 0, PANEL_WIDTH, TOTAL_HEIGHT))
+    pygame.draw.rect(_screen, GRAY, (BOARD_WIDTH, 0, PANEL_WIDTH, TOTAL_HEIGHT))
 
     # Draw turn information or winner
     font = pygame.font.Font(None, 36)
@@ -260,19 +262,19 @@ def draw_info_panel(
         text_color = RED if board.red_turn else BLACK
 
     info_surface = font.render(info_text, True, text_color)
-    screen.blit(info_surface, (BOARD_WIDTH + 20, 50))
+    _screen.blit(info_surface, (BOARD_WIDTH + 20, 50))
 
     # Draw player and bot color information
     player_text = f"Player: {'Red' if player_color == RED else 'Black'}"
     bot_text = f"Bot: {'Red' if bot_color == RED else 'Black'}"
     player_surface = font.render(player_text, True, BLACK)
     bot_surface = font.render(bot_text, True, BLACK)
-    screen.blit(player_surface, (BOARD_WIDTH + 20, 100))
-    screen.blit(bot_surface, (BOARD_WIDTH + 20, 140))
+    _screen.blit(player_surface, (BOARD_WIDTH + 20, 100))
+    _screen.blit(bot_surface, (BOARD_WIDTH + 20, 140))
 
     # Draw buttons
-    new_game_button.draw(screen)
-    exit_button.draw(screen)
+    new_game_button.draw(_screen)
+    exit_button.draw(_screen)
 
 
 def get_row_col_from_mouse(pos):
@@ -336,7 +338,7 @@ def main():
             screen.fill(WHITE)
             board.draw(screen)
             font = pygame.font.Font(None, 36)
-            text = font.render("Bot is thinking...", True, BLACK)
+            text = font.render("Bot is thinking...", True, GRAY)
             text_rect = text.get_rect(center=(BOARD_WIDTH // 2, BOARD_HEIGHT // 2))
             screen.blit(text, text_rect)
             draw_info_panel(
@@ -366,9 +368,9 @@ def main():
             if (board.winner == "Red wins!" and player_color == RED) or (
                 board.winner == "Black wins!" and player_color == BLACK
             ):
-                text = font.render("You Win!", True, player_color)
+                text = font.render("You Win!", True, WHITE)
             else:
-                text = font.render("Bot Wins!", True, bot.color)
+                text = font.render("Bot Wins!", True, WHITE)
             text_rect = text.get_rect(center=(BOARD_WIDTH // 2, BOARD_HEIGHT // 2))
             screen.blit(text, text_rect)
 
