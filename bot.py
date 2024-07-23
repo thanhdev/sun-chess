@@ -2,7 +2,7 @@ import copy
 import random
 import time
 
-from main import RED, BLACK
+from constants import BLACK, RED
 
 
 class Bot:
